@@ -80,13 +80,22 @@
 								        </c:choose>
 															
 									</dd>
+										<%--Imprimir Director--%>
+									<dt class="col-sm-3">Director</dt>
+									<dd class="col-sm-9">
+							              <p>
+											  <c:out value="${pelicula.director.nameDirector}"/> <c:out value="${pelicula.director.surnameDirector}"/>
+										  </p>
+									</dd>
 
 									<dt class="col-sm-3 text-truncate">Horari</dt>
 									<dd class="col-sm-9">
 									
 								       <%-- Es mostra horari del cinema --%> 
-							           <c:forEach var="session" varStatus="loop" items="${pelicula.horari}">  
-							              <span class="badge badge-info"> <c:out value="${session.hourIni}"/> </span>
+							           <c:forEach var="session" varStatus="loop" items="${pelicula.horari}">
+							              <span class="badge badge-<c:out value="${session.clubArmchair==true ? 'warning':'info'}"/>">
+											  <c:out value="${session.hourIni}"/>
+										  </span>
 							           </c:forEach>
 							           
 									</dd>
@@ -106,7 +115,7 @@
 
 <%-- Missatge d'avís controlat si no s'ha trobat cap pel·lícula amb el codi especificat --%>
 <c:if test = "${!exist}">
-    <jsp:forward page = "codi_incorrecte.jsp" />     
+    <jsp:forward page = "error/codi_incorrecte.jsp" />
 </c:if>
 
 <%-- Foote: inclou el resultat de la URL --%>

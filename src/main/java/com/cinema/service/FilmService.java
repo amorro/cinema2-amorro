@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.cinema.bd.BDConnectionMySQL;
+import com.cinema.dto.Director;
 import com.cinema.dto.Film;
 import com.cinema.dto.Genere;
 import com.cinema.dto.Session;
@@ -43,6 +44,8 @@ public class FilmService {
                     Integer age_rating = resultat.getInt("flm_age_rating");
                     Date release = resultat.getDate("flm_date_release");
                     Boolean premiere = resultat.getBoolean("flm_premiere");
+                    Integer id_director = resultat.getInt("flm_dir_fk");
+                    Director director = getFilmDirector(id_director);
 
                     Film peli = new Film(Integer.valueOf(id),
                             title,
@@ -51,6 +54,7 @@ public class FilmService {
                             age_rating,
                             Genere.valueOf(genre),
                             convertToLocalDate(release),
+							director,
 							duration,
                             premiere);
                     System.out.println(peli.toString());
@@ -96,6 +100,8 @@ public class FilmService {
                     Integer age_rating = resultat.getInt("flm_age_rating");
                     Date release = resultat.getDate("flm_date_release");
                     Boolean premiere = resultat.getBoolean("flm_premiere");
+                    Integer id_director = resultat.getInt("flm_dir_fk");
+                    Director director = getFilmDirector(id_director);
 
                     Film peli = new Film(Integer.valueOf(id),
                             title,
@@ -104,6 +110,7 @@ public class FilmService {
                             age_rating,
                             Genere.valueOf(genre),
                             convertToLocalDate(release),
+							director,
 							duration,
                             premiere);
 
@@ -140,7 +147,8 @@ public class FilmService {
                     int id = resultat.getInt("ses_id_film");
                     String hora_inici = resultat.getString("ses_hour_ini");
                     String hora_fi = resultat.getString("ses_hour_end");
-                    Session session = new Session(id, hora_inici, hora_fi);
+                    Boolean clubArmchair = resultat.getBoolean("ses_club_armchair");
+                    Session session = new Session(id, hora_inici, hora_fi, clubArmchair);
                     System.out.println(session.toString());
                     list.add(session);
 
@@ -153,6 +161,40 @@ public class FilmService {
             System.out.println(e.getMessage());
         }
         return list;
+    }
+
+// get list director
+    public Director getFilmDirector(int idDir) {
+
+        BDConnectionMySQL bd = new BDConnectionMySQL();
+        Director director = null;
+
+        try {
+            String query = "SELECT * FROM director WHERE dir_id = ?";
+            Connection connexio = bd.getConnection();
+            PreparedStatement sentencia = connexio.prepareStatement(query);
+            // Configuram el pàrametre d'entrada
+            sentencia.setInt(1, idDir);
+
+            ResultSet resultat = sentencia.executeQuery();
+
+            if (resultat != null) {
+                while (resultat.next()) {
+                    int id = resultat.getInt("dir_id");
+                    String name = resultat.getString("dir_name");
+                    String surname = resultat.getString("dir_surname");
+                    director = new Director(id, name, surname);
+                    System.out.println(director.toString());
+
+                }
+            }
+            sentencia.close();
+            connexio.close();
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return director;
     }
 
     // Llista filtrada per genere
@@ -206,6 +248,8 @@ public class FilmService {
                 String genre = resultat.getString("flm_genre");
                 String duration = resultat.getString("flm_duration");
                 Integer age_rating = resultat.getInt("flm_age_rating");
+                Integer id_director = resultat.getInt("flm_dir_fk");
+                Director director = getFilmDirector(id_director);
                 Date release = resultat.getDate("flm_date_release");
                 Boolean premiere = resultat.getBoolean("flm_premiere");
 
@@ -216,6 +260,7 @@ public class FilmService {
                         age_rating,
                         Genere.valueOf(genre),
                         convertToLocalDate(release),
+                        director,
                         duration,
                         premiere);
 
@@ -247,7 +292,7 @@ public class FilmService {
             PreparedStatement sentencia = connexio.prepareStatement(query);
             // Configuram el pàrametre d'entrada gènere
             if (fTitle != null) {
-                sentencia.setString(1, "%" + fTitle + "%".toString());
+                sentencia.setString(1, "%" + fTitle + "%");
                 System.out.println(fTitle.toString());
             }
             ResultSet resultat = sentencia.executeQuery();
@@ -262,6 +307,8 @@ public class FilmService {
                     Integer age_rating = resultat.getInt("flm_age_rating");
                     Date release = resultat.getDate("flm_date_release");
                     Boolean premiere = resultat.getBoolean("flm_premiere");
+                    Integer id_director = resultat.getInt("flm_dir_fk");
+                    Director director = getFilmDirector(id_director);
 
                     Film peli = new Film(Integer.valueOf(id),
                             title,
@@ -270,6 +317,7 @@ public class FilmService {
                             age_rating,
                             Genere.valueOf(genre),
                             convertToLocalDate(release),
+                            director,
                             duration,
                             premiere);
 

@@ -8,15 +8,17 @@ public class Session implements Serializable {
 	private int idFilm;
 	private String hourIni;
 	private String hourEnd;
+	private boolean clubArmchair;
 	
 	
 	public Session() {
 	}
 	
-	public Session(int idFilm, String hourIni, String hourEnd) {
+	public Session(int idFilm, String hourIni, String hourEnd, boolean clubArmchair) {
 		this.idFilm = idFilm;
 		this.hourIni = hourIni;
 		this.hourEnd = hourEnd;
+		this.clubArmchair = clubArmchair;
 	}
 	public int getIdFilm() {
 		return idFilm;
@@ -35,6 +37,12 @@ public class Session implements Serializable {
 	}
 	public void setHourEnd(String hourEnd) {
 		this.hourEnd = hourEnd;
+	}
+	public boolean isClubArmchair() {
+		return clubArmchair;
+	}
+	public void setClubArmchair(boolean clubArmchair) {
+		this.clubArmchair = clubArmchair;
 	}
 
 	@Override
@@ -63,6 +71,6 @@ public class Session implements Serializable {
 	public String toString() {
 		return "Session [idFilm=" + idFilm + ", hourIni=" + hourIni + ", hourEnd=" + hourEnd + "]";
 	}
-	
-	
+
+
 }

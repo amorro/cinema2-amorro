@@ -22,6 +22,7 @@ public class Film implements Serializable {
     private LocalDate dataEstreno;
     private Boolean estreno = false;
     private List<Session> horari = new ArrayList<>();
+    private Director director;
     
     public Film(Integer id, String nom, String sinopsi) {
         this.id = id;
@@ -29,7 +30,7 @@ public class Film implements Serializable {
         this.sinopsi = sinopsi;
     }    
 
-    public Film(Integer id, String nom, String sinopsi, String caratula, Integer edatRec, Genere genere, LocalDate dataEstreno, String duration, Boolean estreno) {
+    public Film(Integer id, String nom, String sinopsi, String caratula, Integer edatRec, Genere genere, LocalDate dataEstreno, Director director, String duration, Boolean estreno) {
         this.id = id;
         this.nom = nom;
         this.sinopsi = sinopsi;
@@ -37,6 +38,7 @@ public class Film implements Serializable {
         this.genere = genere;
         this.duration = duration;
         this.dataEstreno = dataEstreno;
+        this.director = director;
         this.estreno = estreno;
         this.edatRec=edatRec;
     }
@@ -96,7 +98,15 @@ public class Film implements Serializable {
 		this.horari = horari;
 	}
 
-	public LocalDate getDataEstreno() {
+    public Director getDirector() {
+        return director;
+    }
+
+    public void setDirector(Director director) {
+        this.director = director;
+    }
+
+    public LocalDate getDataEstreno() {
         return dataEstreno;
     }
 
