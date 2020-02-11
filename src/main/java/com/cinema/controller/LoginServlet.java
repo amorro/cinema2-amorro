@@ -11,7 +11,7 @@ import com.cinema.dto.User;
 import com.cinema.service.AutheticationService;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class LoginServlet.class
  */
 @WebServlet("/action-login")
 public class LoginServlet extends HttpServlet {
